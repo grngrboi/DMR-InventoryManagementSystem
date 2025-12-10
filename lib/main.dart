@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'screens/login_screen.dart';
 import 'screens/registration_screen.dart';
 import 'screens/dashboard_screen.dart';
+import 'screens/user_settings_screen.dart';
 
 void main() {
   runApp(const DMRInventoryApp());
@@ -27,6 +28,7 @@ class DMRInventoryApp extends StatelessWidget {
         '/': (context) => const LoginScreen(),
         '/register': (context) => const RegistrationScreen(),
         '/dashboard': (context) => const DashboardScreen(),
+        '/user_settings': (context) => const UserSettingsScreen(),
       },
     );
   }
