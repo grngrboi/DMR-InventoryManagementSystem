@@ -61,7 +61,22 @@ class DashboardScreen extends StatelessWidget {
             child: Row(children: [
               const Expanded(flex: 2, child: Text("Name", style: TextStyle(fontWeight: FontWeight.bold))),
               const Expanded(flex: 3, child: Text("Progress", style: TextStyle(fontWeight: FontWeight.bold))),
-              InkWell(onTap: () {}, child: Row(children: const [Icon(Icons.add_box_outlined, size: 18), SizedBox(width: 4), Text("Register Motor", style: TextStyle(fontWeight: FontWeight.bold))])),
+              InkWell(
+        onTap: () {
+          // Navigate to Motor Details Screen
+          Navigator.pushNamed(context, '/motor_details'); 
+        },
+        child: Row(
+          children: const [
+            Icon(Icons.add_box_outlined, size: 18),
+            SizedBox(width: 4),
+            Text(
+              "Register Motor",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+      ),
             ]),
           ),
           Expanded(
