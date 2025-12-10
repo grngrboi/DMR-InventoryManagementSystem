@@ -23,6 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (mounted) {
         setState(() => _isLoading = false);
+        Navigator.pushReplacementNamed(context, '/dashboard');
         // TODO: Add logic to check Role (Admin vs Technician) here
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Login Successful')),
