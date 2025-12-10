@@ -3,10 +3,12 @@
 **Version:** 1.0  
 **Group:** Quantum Savants
 
-Structure
+### 📂 Project Structure
+```text
 lib/
 ├── main.dart
 ├── screens/
+│   ├── dashboard_screen.dart
 │   ├── login_screen.dart
 │   └── registration_screen.dart
 └── widgets/
