@@ -218,15 +218,22 @@ class DashboardScreen extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              // Left Item
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(Icons.qr_code_scanner, color: Colors.white),
-                  SizedBox(height: 4),
-                  Text("Scan Code", style: TextStyle(color: Colors.white, fontSize: 12))
-                ],
+              // --- UPDATED SCAN BUTTON ---
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/scan'); // Navigate to Scan Screen
+                },
+                behavior: HitTestBehavior.opaque, // Ensures the whole area is clickable
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(Icons.qr_code_scanner, color: Colors.white),
+                    SizedBox(height: 4),
+                    Text("Scan Code", style: TextStyle(color: Colors.white, fontSize: 12))
+                  ],
+                ),
               ),
+              // ---------------------------
               // Spacer for the Floating Button
               const SizedBox(width: 40),
               // Right Item
