@@ -30,7 +30,13 @@ class DashboardScreen extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 // Logout Logic
-                Navigator.pop(context);
+                // This pushes the Login route and removes ALL previous routes (Dashboard)
+                // so the user cannot press 'back' to return to the app.
+                Navigator.pushNamedAndRemoveUntil(
+                  context, 
+                  '/',              // The route name for LoginScreen (defined in main.dart)
+                  (route) => false  // Predicate: remove everything else
+                );
               },
               child: const Row(
                 children: [
