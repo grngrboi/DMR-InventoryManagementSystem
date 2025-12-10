@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/shared_widgets.dart'; // Reuse your shared input widgets
+import '../widgets/shared_widgets.dart';
 
 class MotorDetailsScreen extends StatefulWidget {
   const MotorDetailsScreen({super.key});
@@ -9,11 +9,13 @@ class MotorDetailsScreen extends StatefulWidget {
 }
 
 class _MotorDetailsScreenState extends State<MotorDetailsScreen> {
-  // Controllers for the form
+  // 1. Add a GlobalKey to identify the form
+  final _formKey = GlobalKey<FormState>();
+
   final _nameController = TextEditingController();
   final _typeController = TextEditingController();
   final _brandController = TextEditingController();
-  final _ssidController = TextEditingController();
+  final _ssidController = TextEditingController(); // Optional field
   final _dateRegController = TextEditingController();
   final _userRegController = TextEditingController();
 
@@ -39,7 +41,7 @@ class _MotorDetailsScreenState extends State<MotorDetailsScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // 1. Image Upload Placeholder
+            // Image Upload Placeholder
             Container(
               height: 200,
               width: double.infinity,
@@ -54,109 +56,123 @@ class _MotorDetailsScreenState extends State<MotorDetailsScreen> {
               ),
             ),
 
-            // 2. Form Fields
             Padding(
               padding: const EdgeInsets.all(24.0),
-              child: Column(
-                children: [
-                  buildLabel("Generator Name *"), const SizedBox(height: 8),
-                  buildTextField(controller: _nameController, hint: ""),
-                  const SizedBox(height: 16),
+              // 2. Wrap inputs in a Form widget using the key
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    buildLabel("Generator Name *"), const SizedBox(height: 8),
+                    buildTextField(controller: _nameController, hint: ""), // Default validator is 'Required'
+                    const SizedBox(height: 16),
 
-                  buildLabel("Generator Type *"), const SizedBox(height: 8),
-                  buildTextField(controller: _typeController, hint: ""),
-                  const SizedBox(height: 16),
+                    buildLabel("Generator Type *"), const SizedBox(height: 8),
+                    buildTextField(controller: _typeController, hint: ""),
+                    const SizedBox(height: 16),
 
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          children: [
-                            buildLabel("Generator Brand *"), const SizedBox(height: 8),
-                            buildTextField(controller: _brandController, hint: ""),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            buildLabel("Generator SSID"), const SizedBox(height: 8),
-                            buildTextField(controller: _ssidController, hint: ""),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          children: [
-                            buildLabel("Date Registered *"), const SizedBox(height: 8),
-                            buildTextField(controller: _dateRegController, hint: ""),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            buildLabel("User Registered *"), const SizedBox(height: 8),
-                            buildTextField(controller: _userRegController, hint: ""),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 40),
-
-                  // 3. Action Buttons
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () => Navigator.pop(context),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.grey[300],
-                            foregroundColor: Colors.black,
-                            elevation: 0,
-                            padding: const EdgeInsets.symmetric(vertical: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            children: [
+                              buildLabel("Generator Brand *"), const SizedBox(height: 8),
+                              buildTextField(controller: _brandController, hint: ""),
+                            ],
                           ),
-                          child: const Text("Cancel", style: TextStyle(fontWeight: FontWeight.bold)),
                         ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            // Pass data to next screen (Issues)
-                            Navigator.pushNamed(
-                              context, 
-                              '/motor_issues', 
-                              arguments: {'motorName': _nameController.text, 'motorType': _typeController.text}
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFFB2FF59), // Light Green
-                            foregroundColor: Colors.black,
-                            elevation: 0,
-                            padding: const EdgeInsets.symmetric(vertical: 16),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              buildLabel("Generator SSID"), const SizedBox(height: 8),
+                              // 3. Override validator for optional fields (SSID is often optional)
+                              buildTextField(
+                                controller: _ssidController, 
+                                hint: "",
+                                validator: (val) => null, // No validation needed
+                              ),
+                            ],
                           ),
-                          child: const Text("Proceed", style: TextStyle(fontWeight: FontWeight.bold)),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            children: [
+                              buildLabel("Date Registered *"), const SizedBox(height: 8),
+                              buildTextField(controller: _dateRegController, hint: ""),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              buildLabel("User Registered *"), const SizedBox(height: 8),
+                              buildTextField(controller: _userRegController, hint: ""),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 40),
+
+                    // Action Buttons
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () => Navigator.pop(context),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.grey[300],
+                              foregroundColor: Colors.black,
+                              elevation: 0,
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                            ),
+                            child: const Text("Cancel", style: TextStyle(fontWeight: FontWeight.bold)),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // 4. Validate before proceeding
+                              if (_formKey.currentState!.validate()) {
+                                Navigator.pushNamed(
+                                  context, 
+                                  '/motor_issues', 
+                                  arguments: {'motorName': _nameController.text, 'motorType': _typeController.text}
+                                );
+                              } else {
+                                // Optional: Show a snackbar if you want extra feedback
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Please fill in all required fields')),
+                                );
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFFB2FF59),
+                              foregroundColor: Colors.black,
+                              elevation: 0,
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                            ),
+                            child: const Text("Proceed", style: TextStyle(fontWeight: FontWeight.bold)),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
         ),
       ),
-      // Shared Navigation
       floatingActionButton: buildHomeFab(context),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: buildBottomNavBar(context, currentRoute: ''),
